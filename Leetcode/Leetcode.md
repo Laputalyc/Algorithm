@@ -15,8 +15,8 @@
 		* 包括beginIndex索引，不包括endIndex索引。
 	* 考虑一下特殊情况，输入数组为空，以及为null。
 	* 考虑一下提高效率：输入字符串的长度为1可以直接输出，就是它本身。  
-![longestCommonPrefix](longestCommonPrefix.png)
-![longestCommonPrefixResult](longestCommonPrefixResult.png)
+![longestCommonPrefix](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/longestCommonPrefix.PNG)
+![longestCommonPrefixResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/longestCommonPrefixResult.PNG)  
 ##20.有效的括号(2018/11/15)
 * 思路：用一个哈希表存储括号对，一般情况下如果输入的是正括号就压栈，如果输入的是反括号，首先判断栈是否为空，如果为空则返回false，如果不为空则比较括号是否匹配，在最后，如果栈中全空，那么说明匹配成功了，不为空则失败。
 	* HashMap<K, V>()  将K,V的类型加上不然后面会出现类型转换异常，字符的包装类型为Character。Stack也是同理。
@@ -28,38 +28,38 @@
 		String s = new String("");  
 		String ss = new String("");这是s == ss就是false  
 	而本题传入的s不知道是不是new出来的（有结果看来是new出来的），所以判断是否为空字符串的方法还是s.equals("") 或者 s.length() == 0(推荐这种方法效率高)  
-![isValid](isValid.png)
-![isValidResult](isValidResult.png)
+![isValid](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/isValid.PNG)
+![isValidResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/isValidResult.PNG)
 ##21.合并两个有序链表(2018/11/16)
 * 思路：和数组的归排序相同,一个merge的过程，但我是用额外的一个链表来存储结果的，应该可以在原有的链表上进行操作这样可以节省空间复杂度。这题可以再做思考。  
 	* 我设置了一个temp变量来做操作，并用result记录第一个结点的。
 	* 首先单独比较第一次把第一个结点确定下来，这样后面好操作。
 	* 最后三种特殊情况输入都为null则输出也为null，其中一个为null则直接输出另外一个。  
-![singleListNode](singleListNode.png)  
-![mergeTwoLists](mergeTwoLists.png)
-![mergeTwoListsResult](mergeTwoListsResult.png)
+![singleListNode](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/singleListNode.PNG)  
+![mergeTwoLists](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/mergeTwoLists.PNG)
+![mergeTwoListsResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/mergeTwoListsResult.PNG)
 ##26.删除排序数组中的重复项(2018/11/17)
 * 思路：设置两个指针，p1始终指示[0,p1]范围内排好序无重复的数组,p2始终指向待比较的数组元素。因为传入的是已排好序的数组，所以nums[p2]>=nums[p1]。分两种情况：若nums[p2] == nums[p1],那么p2++,如果nums[p2] > nums[p1] (所需要的数组元素)，swap(nums,++p1, p2++)。  
-![removeDuplicates](removeDuplicates.png)  
-![removeDuplicatesResult](removeDuplicatesResult.png)
+![removeDuplicates](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeDuplicates.PNG)  
+![removeDuplicatesResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeDuplicatesResult.PNG)
 ##27.移除元素(2018/11/18)
 * 思路：同26，首先要明确一点对数组执行删除元素的操作只能是逻辑上的删除，不可能是物理上的删除，因为数据一旦确定长度就不会发生改变，所以删除的本质实际上是就是交换位置和限定长度，这通常都是要设置两个指针，而且一前一后，前一个指针最为返回的长度，后一个指针作为待比较的数组元素。  
-![removeElements](removeElements.png)  
-![removeElementsResult](removeElementsResult.png)
+![removeElements](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeElements.PNG)  
+![removeElementsResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeElementsResult.PNG)
 ##28.实现strStr()(2018/11/18)
-![strStr](strStr.png)  
-![strStrResult](strStrResult.png)
+![strStr](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/strStr.PNG)  
+![strStrResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/strStrResult.PNG)
 ##2.两数相加(2018/11/19)
 * 思路：逆序并没有什么思维上的难度，向左进位变为向右进位就行了，这题大体思路上很直接，主要在于细节的处理以及界限的判定。
 	* 注意空指针异常，和21题做一个对比，为什么21没有专门为结点指示next结点没有出现空指针异常，而这题就出现了呢？
 	* 什么情况下需要下一个结点：1.其中任何一个或两个链表的下一个结点不为空。2.有进位。
 	* 设置一个进位符是点睛之笔。  
-![addTwoNumbers](addTwoNumbers.png)  
-![addTwoNumbersResult](addTwoNumbersResult.png)
+![addTwoNumbers](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/addTwoNumbers.PNG)  
+![addTwoNumbersResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/addTwoNumbersResult.PNG)
 ##35.搜索插入位置(2018/11/19)
 * 思路：设置一个索引i=0.如果nums[i]<target,则i++.如果nums[target]>=target,则return i.最后返回nums.length;
-![searchInsert](searchInsert.png)  
-![searchInsertResult](searchInsertResult.png)
+![searchInsert](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/searchInsert.PNG)  
+![searchInsertResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/searchInsertResult.PNG)
 ##3.无重复字符的最长字串(2018/11/20)
 * 思路：用一个数组存储每个索引处的最长子串（最后一个不用比较，因为最后一个始终为1），然后在数组中得到最大值就是最长字串。
 	* 使用一个字串中是否包含一个字符？contains()函数只能判断是否包含某个字符串，所以可以play a trick：contains(s.charAt(j)+"");在后面加上一个空字符。
@@ -68,15 +68,15 @@
 		* for循环的i++是在什么时候加。每次循环完都会加一次。  
 	* **关于for循环j++到底是在什么时候加**(2018/12/1)
 		* 正常循环在出了循环的范围后j就已经加了，如果是break导致的循环中断那么j就没有加。
-![lengthOfLongestSubstring](lengthOfLongestSubstring.png)  
-![lengthOfLongestSubstringResult](lengthOfLongestSubstringResult.png)  
+![lengthOfLongestSubstring](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstring.PNG)  
+![lengthOfLongestSubstringResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstringResult.PNG)  
 ###更优解法：**滑动窗口**(2018/11/20)
 >之前暴力法是从第一个字符开始比较如果发现有重复了就回溯到从下一个字符开始比较还有嵌套的contains方法所以时间复杂度为O(n^2)，现在所讨论的滑动窗口不用回溯，假设某状态窗口的大小为[i,j)如果比较第j个字符没有出现重复则窗口向右移一位变为[i,j+1),如果出现了重复则窗口左边向右滑动一位变为[i+1,j)。  
 
 	* 调用java原有内置方法的时间复杂度怎么算？
 	* String中的contains方法和Set中的contains方法的时间复杂度是多少？
-![lengthOfLongestSubstring_2](lengthOfLongestSubstring_2.png)  
-![lengthOfLongestSubstringResult_2](lengthOfLongestSubstringResult_2.png) 
+![lengthOfLongestSubstring_2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstring_2.PNG)  
+![lengthOfLongestSubstringResult_2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstringResult_2.PNG) 
   
 * set的add方法：添加元素；remove方法:移除元素，**索引会跟着改变**。
 * set集合是**无序**的，放入和输出的元素顺序是不一致的。
@@ -90,8 +90,8 @@
 		* containsValue():检查是否含有某个值
 		* get(K):通过传入键得到相应的值：如果不包含则返回null 
 
-![lengthOfLongestSubstring_3](lengthOfLongestSubstring_3.png)  
-![lengthOfLongestSubstringResult_3](lengthOfLongestSubstringResult_3.png)
+![lengthOfLongestSubstring_3](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstring_3.PNG)  
+![lengthOfLongestSubstringResult_3](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstringResult_3.PNG)
 ###扩展：假设字符集为 ASCII 128
 > 以前的我们都没有对字符串 s 所使用的字符集进行假设。  
 当我们知道该字符集比较小的时侯，我们可以用一个整数数组作为直接访问表来替换 Map。  
@@ -125,13 +125,13 @@ int [256] 用于扩展ASCII码
           if (rev < Integer.MIN_VALUE/10 || (rev == Integer.MIN_VALUE / 10 && pop < -8))   	return 0;  
 
 * 最初版本：  
-![reverse](reverse.png)  
-![reverseResult](reverseResult.png)  
+![reverse](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverse.PNG)  
+![reverseResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverseResult.PNG)  
 * 改进版本：  
-![reverse_2](reverse_2.png)  
-![reverseResult_2](reverseResult_2.png) 
+![reverse_2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverse_2.PNG)  
+![reverseResult_2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverseResult_2.PNG) 
 * Leetcode版本：  
-![reverseLeetcode](reverseLeetcode.png)  
+![reverseLeetcode](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverseLeetcode.PNG)  
 ##判断一个链表是否是回文结构(2018\11\24)
 * 【题目】 给定一个链表的头节点head，请判断该链表是否为回文结构。 例如： 1->2->1，返回true。1->2->2->1，返回true。15->6->15，返回true。 1->2->3，返回false。
 	* 思路1：不考虑额外空间复杂度，一次遍历将链表的值放入栈中，二次遍历将链表和栈中的值进行比较即可。
@@ -183,7 +183,9 @@ int [256] 用于扩展ASCII码
 		* 怎样找到两个有环单链表相交的第一个结点？
 			* 有环和无环不可能相交。
 			* 两个有环的链表有三种拓补结构（head1、head2、loop1、loop2（入环结点））：  
-![findFirstIntersectNode](findFirstIntersectNode.png)
+			* 
+![findFirstIntersectNode](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/findFirstIntersectNode.png)
+
 				* 1.各自成环不相交
 				* 2.先相交再成环
 					* 判断条件loop1 == loop2，判断哪个是相交结点同无环链表的相交。
@@ -192,8 +194,8 @@ int [256] 用于扩展ASCII码
 ##实现二叉树的先序、中序、后序遍历，包括递归方式和非递归方式(2018/11/27)
 * 不管哪种遍历每个节点都会访问三次，如果把打印节点的时机放在第一次访问该结点的时候就是先序遍历，放在第二次访问该结点的时候就是中序遍历，放在第三次访问该结点的时候就是后续遍历。
 	* 注意中序遍历和后续遍历是输出的项
-![inOrderTraverse](inOrderTraverse.png)  
-![visitOrder](visitOrder.png)
+![inOrderTraverse](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/inOrderTraverse.PNG)  
+![visitOrder](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/visitOrder.png)
 * 非递归版本的先序遍历
 	* 利用一个栈，先把**头**结点压栈，每次进入循环的时候先把栈顶的结点弹出来，并输出（头结点）再压头结点的**右**结点，再压头结点的**左**结点，这样就模拟了中左右的顺序。
 		* 为什么考虑用栈来代替递归呢？
@@ -204,7 +206,7 @@ int [256] 用于扩展ASCII码
 	* 思考一下循环的终止条件是什么。
 * 非递归版本的后序遍历
 	* 后序遍历的顺序是：左右中。我们知道先序遍历的顺序是中左右，这个很好实现，同样的要实现中右左的访问顺序也很好实现，我们的思路就是在实现了中右左的顺序后不打印，先把它压入另一个栈中再一次弹出，这样就实现了左右中的打印顺序。
-![inOrderTraverse2](inOrderTraverse2.png)  
+![inOrderTraverse2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/inOrderTraverse2.PNG)  
 ##在二叉树中找到一个结点的后继结点(2018/11/29)
 > 现在有一种新的二叉树结点如下：  
 
@@ -229,11 +231,11 @@ int [256] 用于扩展ASCII码
 怎么将一棵树变成一个字符串，通过这个字符串就能重构出这棵树。 
  
 * 先序遍历的方式序列化
-![preOrderTraverse_serialize](preOrderTraverse_serialize.png)
+![preOrderTraverse_serialize](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/preOrderTraverse_serialize.png)
 * #代表null  
 同理中序、后续的序列化和反序列化原理同上。
 * 按层序列化
-![layer_serialize](layer_serialize.png)
+![layer_serialize](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/layer_serialize.png)
 ##判断一棵树是否是平衡二叉树(2018/11/30)
 * 什么叫做平衡人二叉树：每个结点的左子树和右子树的高度差不超过1。  
 **在处理二叉树的问题的时候递归函数很好用**
