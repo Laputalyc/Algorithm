@@ -1,11 +1,11 @@
 
 #Algorithm
 
-##13.罗马数字转整数(2018/11/13)
+## 13.罗马数字转整数(2018/11/13)
 * 思路：用switch进行判断，在有分歧的分支进行判断即可。
 	* 字符串没有索引，s[i]是不存在的，解决办法是s.charAt(i),注意这是字符类型。
 	* 当需要判断后一个元素是否有关联的时候需要首先判断是否越界。例如，(i+1)<s.length() &&s.charAt(i+1) == 'V'
-##14.最长公共前缀(2018/11/14)
+## 14.最长公共前缀(2018/11/14)
 * 首先用一个额外数组（len）记录输入字符串数组中各字符串的长度，其次求出数组len中的最小值（目的是为了在接下来比较的时候确定比较的最大范围），以及索引值（目的是为了在比较完成都没有不同之后，说明最长公共前缀即为输入字符串数组中长度最短的字符串），依次比较各个字符串中不同索引的字符，不同时，返回从0索引开始的子串。
 	* 结合上题要注意数组的长度是一个字段，字符串的长度是一个函数。例如获取数组的长度  
 	String[] strs = {"flower", "flight", "flow"};  
@@ -18,7 +18,7 @@
 	* 考虑一下提高效率：输入字符串的长度为1可以直接输出，就是它本身。  
 ![longestCommonPrefix](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/longestCommonPrefix.PNG)
 ![longestCommonPrefixResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/longestCommonPrefixResult.PNG)  
-##20.有效的括号(2018/11/15)
+## 20.有效的括号(2018/11/15)
 * 思路：用一个哈希表存储括号对，一般情况下如果输入的是正括号就压栈，如果输入的是反括号，首先判断栈是否为空，如果为空则返回false，如果不为空则比较括号是否匹配，在最后，如果栈中全空，那么说明匹配成功了，不为空则失败。
 	* HashMap<K, V>()  将K,V的类型加上不然后面会出现类型转换异常，字符的包装类型为Character。Stack也是同理。
 	* 一个疑问。在程序第11行，判断一个字符串是否为空，用s == "";运行不同，用s.length() == 0;可以。
@@ -31,7 +31,7 @@
 	而本题传入的s不知道是不是new出来的（有结果看来是new出来的），所以判断是否为空字符串的方法还是s.equals("") 或者 s.length() == 0(推荐这种方法效率高)  
 ![isValid](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/isValid.PNG)
 ![isValidResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/isValidResult.PNG)
-##21.合并两个有序链表(2018/11/16)
+## 21.合并两个有序链表(2018/11/16)
 * 思路：和数组的归排序相同,一个merge的过程，但我是用额外的一个链表来存储结果的，应该可以在原有的链表上进行操作这样可以节省空间复杂度。这题可以再做思考。  
 	* 我设置了一个temp变量来做操作，并用result记录第一个结点的。
 	* 首先单独比较第一次把第一个结点确定下来，这样后面好操作。
@@ -39,29 +39,29 @@
 ![singleListNode](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/singleListNode.PNG)  
 ![mergeTwoLists](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/mergeTwoLists.PNG)
 ![mergeTwoListsResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/mergeTwoListsResult.PNG)
-##26.删除排序数组中的重复项(2018/11/17)
+## 26.删除排序数组中的重复项(2018/11/17)
 * 思路：设置两个指针，p1始终指示[0,p1]范围内排好序无重复的数组,p2始终指向待比较的数组元素。因为传入的是已排好序的数组，所以nums[p2]>=nums[p1]。分两种情况：若nums[p2] == nums[p1],那么p2++,如果nums[p2] > nums[p1] (所需要的数组元素)，swap(nums,++p1, p2++)。  
 ![removeDuplicates](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeDuplicates.PNG)  
 ![removeDuplicatesResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeDuplicatesResult.PNG)
-##27.移除元素(2018/11/18)
+## 27.移除元素(2018/11/18)
 * 思路：同26，首先要明确一点对数组执行删除元素的操作只能是逻辑上的删除，不可能是物理上的删除，因为数据一旦确定长度就不会发生改变，所以删除的本质实际上是就是交换位置和限定长度，这通常都是要设置两个指针，而且一前一后，前一个指针最为返回的长度，后一个指针作为待比较的数组元素。  
 ![removeElements](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeElements.PNG)  
 ![removeElementsResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/removeElementsResult.PNG)
-##28.实现strStr()(2018/11/18)
+## 28.实现strStr()(2018/11/18)
 ![strStr](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/strStr.PNG)  
 ![strStrResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/strStrResult.PNG)
-##2.两数相加(2018/11/19)
+## 2.两数相加(2018/11/19)
 * 思路：逆序并没有什么思维上的难度，向左进位变为向右进位就行了，这题大体思路上很直接，主要在于细节的处理以及界限的判定。
 	* 注意空指针异常，和21题做一个对比，为什么21没有专门为结点指示next结点没有出现空指针异常，而这题就出现了呢？
 	* 什么情况下需要下一个结点：1.其中任何一个或两个链表的下一个结点不为空。2.有进位。
 	* 设置一个进位符是点睛之笔。  
 ![addTwoNumbers](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/addTwoNumbers.PNG)  
 ![addTwoNumbersResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/addTwoNumbersResult.PNG)
-##35.搜索插入位置(2018/11/19)
+## 35.搜索插入位置(2018/11/19)
 * 思路：设置一个索引i=0.如果nums[i]<target,则i++.如果nums[target]>=target,则return i.最后返回nums.length;
 ![searchInsert](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/searchInsert.PNG)  
 ![searchInsertResult](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/searchInsertResult.PNG)
-##3.无重复字符的最长字串(2018/11/20)
+## 3.无重复字符的最长字串(2018/11/20)
 * 思路：用一个数组存储每个索引处的最长子串（最后一个不用比较，因为最后一个始终为1），然后在数组中得到最大值就是最长字串。
 	* 使用一个字串中是否包含一个字符？contains()函数只能判断是否包含某个字符串，所以可以play a trick：contains(s.charAt(j)+"");在后面加上一个空字符。
 	* 考虑两种情况：一、从某一处索引开始在中途断了怎么办？二、从某一处索引开始，一直到字符串结束都没有出现重复该怎么办？针对情况二，我加了一个标识位flag，这个标识位的主要判断原理是如果当j到了最后一个字符呢？但是没有出现错误，那么这时候的长度就是s.length()-i;
@@ -81,7 +81,7 @@
   
 * set的add方法：添加元素；remove方法:移除元素，**索引会跟着改变**。
 * set集合是**无序**的，放入和输出的元素顺序是不一致的。
-###优化的滑动窗口(2018/11/20)
+### 优化的滑动窗口(2018/11/20)
 * 思路：普通的滑动窗口存在的问题，最坏情况下需要做2n次操作，即每个字符均被i和j同时访问，这其实可以避免因为在[i,j)范围内中有字符与第j个字符重复了，那么可以进一步思考确定是[i,j)中的第k个字符重复了，那么接下来直接把i变为k+1即可。
 	* 窗口的滑动是怎样实现的？
 		* **很精髓的一个思维**： i = Math.max(map.get(s.charAt(j)), i);当发现待比较的字符已经存在Map中时（此时有两种情况：确实比较的字符与当前窗口中的某个字符重复，第二种情况是重复的窗口是之前遗留的），所以通过比较i的值，取其中最大的值即可，不用刻意删去。
@@ -93,7 +93,7 @@
 
 ![lengthOfLongestSubstring_3](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstring_3.PNG)  
 ![lengthOfLongestSubstringResult_3](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/lengthOfLongestSubstringResult_3.PNG)
-###扩展：假设字符集为 ASCII 128
+### 扩展：假设字符集为 ASCII 128
 > 以前的我们都没有对字符串 s 所使用的字符集进行假设。  
 当我们知道该字符集比较小的时侯，我们可以用一个整数数组作为直接访问表来替换 Map。  
 常用的表如下所示：  
@@ -114,9 +114,9 @@ int [256] 用于扩展ASCII码
 	        return ans;
 	    }
 	}
-##5.最长回文字串(2018/11/22)
+## 5.最长回文字串(2018/11/22)
 思路：是一个模式匹配
-##7.整数反转(2018/11/24)
+## 7.整数反转(2018/11/24)
 * 思路：主要在于怎样解决防止溢出的问题，我的思路是操作过程中始终用long进行操作，在最后进行判断是否溢出，如果没有则强转为int类型。
 	* **有一个很严重的思路问题**：就是我把整数和负数分开考虑了，其实没有必要-123 = -12*10 + (-3)
 	* 其二我是(res+remainder)*10，这样不如这样rev = rev * 10 + pop好，需要多一次判断。
@@ -133,7 +133,7 @@ int [256] 用于扩展ASCII码
 ![reverseResult_2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverseResult_2.PNG) 
 * Leetcode版本：  
 ![reverseLeetcode](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/reverseLeetcode.PNG)  
-##判断一个链表是否是回文结构(2018\11\24)
+## 判断一个链表是否是回文结构(2018\11\24)
 * 【题目】 给定一个链表的头节点head，请判断该链表是否为回文结构。 例如： 1->2->1，返回true。1->2->2->1，返回true。15->6->15，返回true。 1->2->3，返回false。
 	* 思路1：不考虑额外空间复杂度，一次遍历将链表的值放入栈中，二次遍历将链表和栈中的值进行比较即可。
 	* 思路2：设置一个快指针一个慢指针，快指针走完，慢指针刚好走到中点的位置，这时候从慢指针开始把后面的数据压栈，相当于把后面的半段与前面的半段相比，比较的终止条件是栈中为空。
@@ -149,13 +149,13 @@ int [256] 用于扩展ASCII码
     				n1 = n2; // n1 move  
     				n2 = n3; // n2 move  
     			}  
-##将单向链表按某值划分为左边小、中间相等、右边大的形式。(2018/11/25)
+## 将单向链表按某值划分为左边小、中间相等、右边大的形式。(2018/11/25)
 * 【题目】给定一个单向链表的头节点head，节点的值类型是整型，再给定一个整数pivot。实现一个调整链表的函数，将链表调整为左部分都是值小于pivot的节点，中间部分都是值等于pivot的节点，右部分都是值大于 pivot的节点。除这个要求外，对调整后的节点顺序没有更多的要求。 例如：链表9->0->4->5->1，pivot=3。 调整后链表可以是1->0->4->9->5，也可以是0->1->9->5->4。总之，满 足左部分都是小于3的节点，中间部分都是等于3的节点（本例中这个部分为空），右部分都是大于3的节点即可。对某部分内部的节点顺序不做要求。
 	* 思路1(笔试)：一个荷兰国旗问题，将链表结点的值放入数组中（结点类型的数组），在数组中partition后，再用链表串起来即可。时间复杂度为O(n),空间复杂度为O(n)。
 		* 注意partition的终止过程是while(pre < more).
 	* 思路2(面试)：上诉方法（即荷兰国旗不具备稳定性），而且需要额外的空间复杂度。首先函数需要两个参数：待partition链表的头结点，用以分割的数num。需要三个引用变量都是结点类型less、eq、more。第一次对链表进行遍历的时候分别找到第一个小于、等于、大于num的结点并赋值给less、eq、more。同时为这三个区域分别准备一个end引用，没加入一个节点后end就指向这个刚移入的end。最后把这三个区域连接起来。时间复杂度为O(n),空间复杂度为O(1)。
 		* 怎样把最后的三个链表连接起来可真是绕死我了。这里推荐左神的code。
-##复制含有随机指针结点的链表(2018/11/26)
+## 复制含有随机指针结点的链表(2018/11/26)
 * 【题目】一种特殊的链表节点类描述如下：  
 
         public class Node { 
@@ -171,7 +171,7 @@ int [256] 用于扩展ASCII码
 * 哈希表拓展：containsKey()以及get()方法的时间复杂度为O(1)。
 * 思路1：首先一遍遍历用HashMap，存储所有结点及其拷贝结点。然后从头结点开始第二次遍历，遍历的过程中通过next指针找打1的next结点2，从哈希表中找到2的拷贝结点2'，所以1'的next结点为2',同样可得random指针以及其它结点的连接关系。
 * 思路2（不用哈希表）：首先一遍遍历形成1 -> 1' -> 2 -> 2' -> 3 -> 3'这种结构。假设现在1的random指针是指向3的，要使1'的random指针指向3'，3' = 1.random.next.如此，可以把random指针解决，接下来的事情就是怎样把两个链表的next指针分开。
-##两个单链表相交的一系列问题(2018/11/26)
+## 两个单链表相交的一系列问题(2018/11/26)
 * 【题目】 在本题中，单链表可能有环，也可能无环。给定两个单链表的头节点 head1和head2这两个链表可能相交，也可能不相交。请实现一个函数， 如果两个链表相交，请返回相交的第一个节点；如果不相交，返回null 即可。 要求：如果链表1的长度为N，链表2的长度为M，时间复杂度请达到 O(N+M)，额外空间复杂度请达到O(1)。
 	* 考虑几个问题：
 		* 怎样判断一个链表有环还是无环？（若有环则返回第一个入环的结点，若无环则返回null）
@@ -192,7 +192,7 @@ int [256] 用于扩展ASCII码
 					* 判断条件loop1 == loop2，判断哪个是相交结点同无环链表的相交。
 				* 3.在环里相交
 					* loop1 ！= loop2为情况1或3，这时进而判断，loop1往下走，如果走了一圈回来还没找到loop2则为情况1，否则为情况3。
-##实现二叉树的先序、中序、后序遍历，包括递归方式和非递归方式(2018/11/27)
+## 实现二叉树的先序、中序、后序遍历，包括递归方式和非递归方式(2018/11/27)
 * 不管哪种遍历每个节点都会访问三次，如果把打印节点的时机放在第一次访问该结点的时候就是先序遍历，放在第二次访问该结点的时候就是中序遍历，放在第三次访问该结点的时候就是后续遍历。
 	* 注意中序遍历和后续遍历是输出的项
 ![inOrderTraverse](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/inOrderTraverse.PNG)  
@@ -208,7 +208,7 @@ int [256] 用于扩展ASCII码
 * 非递归版本的后序遍历
 	* 后序遍历的顺序是：左右中。我们知道先序遍历的顺序是中左右，这个很好实现，同样的要实现中右左的访问顺序也很好实现，我们的思路就是在实现了中右左的顺序后不打印，先把它压入另一个栈中再一次弹出，这样就实现了左右中的打印顺序。
 ![inOrderTraverse2](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/inOrderTraverse2.PNG)  
-##在二叉树中找到一个结点的后继结点(2018/11/29)
+## 在二叉树中找到一个结点的后继结点(2018/11/29)
 > 现在有一种新的二叉树结点如下：  
 
         public class Node { 
@@ -228,7 +228,7 @@ int [256] 用于扩展ASCII码
 		* 具体实现是，如果A没有右孩子，通过A的parent指针找到它的父结点B，如果A是B的左孩子则停止，B就是A的后继结点，否则继续找B的父结点，且令A = B,同理可得；如果向上找为null了，说明不存在后继结点。
 * 那么前驱怎么找呢？
 	* 如果有左子树，则找左子树上最右的结点，如果没有左子树，则向上找直到当前结点是父节点的右孩子。
-##二叉树的序列化和反序列化(2018/11/29)
+## 二叉树的序列化和反序列化(2018/11/29)
 怎么将一棵树变成一个字符串，通过这个字符串就能重构出这棵树。 
  
 * 先序遍历的方式序列化
@@ -237,7 +237,7 @@ int [256] 用于扩展ASCII码
 同理中序、后续的序列化和反序列化原理同上。
 * 按层序列化
 ![layer_serialize](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/layer_serialize.png)
-##判断一棵树是否是平衡二叉树(2018/11/30)
+## 判断一棵树是否是平衡二叉树(2018/11/30)
 * 什么叫做平衡人二叉树：每个结点的左子树和右子树的高度差不超过1。  
 **在处理二叉树的问题的时候递归函数很好用**
 * 首先怎样判断一个头结点构成的数是否是平衡二叉树
@@ -245,17 +245,17 @@ int [256] 用于扩展ASCII码
 	* 2）右子树是一颗平衡二叉树。
 	* 3）左子树的高度和右子树的高度差不超过1。  
 根据以上的分析判断一个结点构成的树是否是平衡二叉树最后需要返回两个值，一个Boolean类型的是否是平衡二叉树，另一个返回值是整数类型的树的高度。
-##判断一棵树是否是搜索二叉树(Binary Search Tree)(2018/11/30)
+## 判断一棵树是否是搜索二叉树(Binary Search Tree)(2018/11/30)
 * 什么叫做搜索二叉树：对于任何一个节点，左子树上结点的值都比它小，右子树上所有结点的值都比它大。空数是搜索二叉树。
 * 怎样判断一颗二叉树是否是搜索二叉树？一棵树的中序遍历是依次升序的就说明是搜索二叉树。
 	* 非递归版本很容易想到。
 	* 递归版本【@ author 李昱辰】可以这样来考虑：要判断一棵树是否是搜索二叉树它得满足三个条件1.左子树是搜索二叉树。2.右子树是搜索二叉树。3.当前结点的值要大于左子树头结点的值，要小于右子树**最左结点的值**。
 		* 特别左右子树为null的情况，任何一边为null都表示这一边满足要求3。
-##判断一棵树是完全二叉树(complete binary tree)(2018/11/30)
+## 判断一棵树是完全二叉树(complete binary tree)(2018/11/30)
 * 1.如果一个结点有右孩子但没有左孩子，则一定不是完全二叉树。
 * 2.如果一个结点的孩子不全，则它按层遍历后面遇到的结点必须都是叶节点才能是完全二叉树。 
 * 3.空树不是完全二叉树。  
-##已知一颗完全二叉树，求其结点的个数(2018/12/4)  
+## 已知一颗完全二叉树，求其结点的个数(2018/12/4)  
 要求时间复杂度**低于**O(n),N为这棵树结点的个数。 
 
 * 对二叉树进行遍历的时间复杂度均为O(n)。
@@ -274,10 +274,32 @@ int [256] 用于扩展ASCII码
 * 哈希表的经典结构  
 首先初始一个空间比如大小为17的一个空间  
 	* put(key,value):首先根据key算出一个hashcode，然后用这个hashcode%17，把这条记录放在算出的那一行（比如10）。这样肯定会有重复，如果另外一个key经前面一系列计算后也是第10行，那么如果key值相同则进行覆盖，如果不相同，则在后面接一个结点，构成链表。类似于顺序存储和链式存储相结合。待到一定程度，比如每个顺序存储地址之后都链接了5个结点，觉得再这样下去效率会有所影响，这时候就要扩容了。我现在想把顺序存储的地址改为104，这时候再计算的时候就要mod104了，那么以前的记录就要失效了，这时候要把之前的拿出来重新进行计算存储。那扩容代价不用计算吗？怎么才能做到存取的时间复杂度都是O(1)?
+## 设计RandomPool结构  
+【题目】设计一种结构，在该结构中有如下三个功能：insert(key)：将某个key加入到该结构，做到不重复加入。delete(key)：将原本在结构中的某个key移除。 getRandom()：等概率随机返回结构中的任何一个key。  
+【要求】 Insert、delete和getRandom方法的时间复杂度都是O(1)  
 
+* 思路：准备一张哈希表肯定不行，它只能做到大致均匀分布，做不到严格的等概率（由哈希函数的离散性可知），因此准备两张哈希表，比如现在要插入一个字符串"abc",那么就在第一个哈希表中存入"abc" = 0,在第二个哈希表中存入0 = "abc",同时设置一个size变量记录存入的总记录，利用Math.random()*size来获取随机的index，在map2中取出对应的字符串，这样就做到了getRandom();但是考虑一下如果进行remove操作后，相当于这一系列连续的存储地址中出现了一个“洞”，如果下次再随机到这里该怎么办呢？所以每次delete()的时候，先remove掉原来位置的记录，再把最后一条记录补到这个“洞”上来这样就好了。
 
+## 布隆过滤器(2018/12/10)
+* 还是url黑名单问题：采用经典的结构该怎么解决这个问题。用一个HashSet存储黑名单上的url，别的不谈至少需要100亿*64(假设每个url由64bit组成) = 745G的存储空间（内存）。更进一步，可以用哈希函数分流到多台机器上进行分布式处理。
+* 布隆过滤器：是一个bit类型的map。准备一个数组，索引为[0,m-1]，它的每个位置都存储的是1bit,即0或1。怎么实现呢？一个整型int是4个字节，总共是32bit,所以如果申请一个int[] arr = new int[1000]可以表示32*1000个bit位。假设我们现在要把第index = 30000个位置的bit置为1该怎么做呢？首先确定它是来自哪一个整数位intIndex = index/32;再获取他是来自该整数位的哪一个bit位 bitIndex = index % 32; 然后置1: **arr[intIndex] = arr[intIndex] | (1 << bitIndex)**;现在考虑一个黑名单问题：假设一个浏览器有100亿个URL在黑名单里面，那么怎么才能确定用户输入的URL是否是黑名单里面的URL呢？准备一个范围为[0,m-1] **bit** 类型的数组，设计k个哈希函数，每个URL经过哈希函数计算后，描黑k个bit位。这样一来当用户输入一个URL之后，经过同样的k个哈希函数计算后，如同那k个位置都被描黑则，说明是黑名单URL，但凡有一个位置没有被描黑，则说明不是黑名单中的url。可以通过调整数组的大小和哈希函数的k来调整失误率。数组大小越大，失误率越低。  
+* m的大小可通过公式计算出来：m = - (n*lnp/(ln2)^2).其中n为样本量，p为预期失误率。
+* k的大小也可以通过公式计算出来：k = ln2 * (m/n)
+* 最终的失误率：(1-e^(-n*k/m))^k
 
+## 一致性哈希(2018/12/10)
 
+* 经典的服务器是一个怎样的抗压结构？例如有无差的前端接收请求，经过哈希函数后均匀分布到后端进行处理，这就是一个传统的服务器抗压结构。当要加机器或者减机器的时候就出现和哈希表扩容一样的问题了，原来数据的归属全都得变。这里就引出一致性哈希的概念：它既可以使数据迁移的代价极低，又可以做到负载均衡。  
+
+传统的服务器抗压结构：  
+![traditionalServerClient](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/traditionalServerClient.png)
+
+* 假设哈希函数的返回值范围是0~2^64，把这个范围想象成一个环(2^64下一个位置是0)。假设现在有三台机器，这三台机器肯定有唯一确定的办法，假设现在用IP地址进行区分，把他们的IP地址经过哈希函数运算后对应到环上去。这样三台机器在环上的位置就确定了。现在怎样存储数据呢？例如“zuo = 31”,把zuo经过哈希函数计算后（**这时候不用%了**）对应到环上的一个位置，然后顺时针找到离它最近的机器交由它处理。该怎么实现呢？把三台机器的哈希值排好序放入一个数组中，在每个前端服务器都放入这个数组，每当一个请求过来之后经过哈希函数计算后得到的值找到>=该值的机器即可(二分法)。
+* 这样该怎么加一台机器呢？只需把m2-m4中在m3的数据迁移到m4中去。减一台同理，代价很低。      
+![dataMigration](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/dataMigration.png)  
+
+* 现在这个结构存在的问题是？当这个机器较少时怎么能保证环被均分？(机器数量足够多的时候有哈希函数的性质可保证均分)还有假设采用技术使最开始的机器保持均分，那么假如一台机器后怎么保持均分呢？ 
+* **虚拟结点技术可以解决上述两个问题。** 假设有三台真实机器：M-1,M-2,M-3。现在不让M-1的IP去在环上确定位置，而是给M-1分配1000个虚拟结点：M-1-1,M-1-2,……M-1-1000，同理M-2,M-3也是。然后准备一张路由表(可以从真实的物理机器去查它有哪些虚拟结点，也可以通过虚拟结点去查它属于哪台物理机器)，用虚拟结点去抢占这个环，这样在大样本的情况下就充分离散了。
 
 
 
