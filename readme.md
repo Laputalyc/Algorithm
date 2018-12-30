@@ -1,5 +1,4 @@
-
-#Algorithm
+# Algorithm
 
 ## 13.罗马数字转整数(2018/11/13)
 * 思路：用switch进行判断，在有分歧的分支进行判断即可。
@@ -301,10 +300,266 @@ int [256] 用于扩展ASCII码
 * 现在这个结构存在的问题是？当这个机器较少时怎么能保证环被均分？(机器数量足够多的时候有哈希函数的性质可保证均分)还有假设采用技术使最开始的机器保持均分，那么假如一台机器后怎么保持均分呢？ 
 * **虚拟结点技术可以解决上述两个问题。** 假设有三台真实机器：M-1,M-2,M-3。现在不让M-1的IP去在环上确定位置，而是给M-1分配1000个虚拟结点：M-1-1,M-1-2,……M-1-1000，同理M-2,M-3也是。然后准备一张路由表(可以从真实的物理机器去查它有哪些虚拟结点，也可以通过虚拟结点去查它属于哪台物理机器)，用虚拟结点去抢占这个环，这样在大样本的情况下就充分离散了。
 
+## 认识并查集结构(2018/12/14)  
+* 用途：  
+	* 查两个元素是否属于一个集合。(isSameSet)
+	* 两个元素各自所在的集合合并在一起。(union)
+* 基本结构：假设现在有5个数(1、2、3、4、5)，第一步让每个数各自成一个集合，即1所在的集合只有1。在每个集合中代表结点的指针是指向自己的，每次要做指针的合并都是将其它元素的指针指向待连接的结点。  
+	* 在查找代表结点的过程中有一个优化：例如结点结构5->4->3->2->1,6->1,我现在要查找结点4的代表结点，那么在查找之后就会变为5->4->1,3->1,2->1,6->1,这种结构。
 
+## 岛问题
+一个矩阵中只有0和1两种值，每个位置都可以和自己的上、下、左、右四个位置相连，如果有一片1连在一起，这个部分叫做一个岛，求一个矩阵中有多少个岛？  
+举例：  
+0 0 1 0 1 0  
+1 1 1 0 1 0  
+1 0 0 1 0 0  
+0 0 0 0 0 0  
+这个矩阵中有三个岛。  
 
+* 思路1：遍历矩阵中的每个点：如果是1则用感染函数对它该点进行感染，将它上下左右所有位置的1变为2(这是一个递归过程)，每次感染结束后岛的数量加1，在遍历的过程中如果遇到2和0则跳过，直到遍历结束。  
 
+* 思路2：分治的思路。将一个矩阵拆分成几个矩阵来看。这时候只需要获取每个小矩阵中岛的数量以及边界信息(这里边界信息记录，每个岛是由哪个感染源感染的)，在合并的时候，如果两个1相连，则查看它们是否来自一个集合，如果不是则岛的数量减1并且将这两个感染源放入一个集合中。如果是0和1或者0和0相连则不用管，直接进行下面的比较。(并查集的用法)
 
+## 前缀树
+* 前缀树的字符信息为什么不放在结点中，而放在边上？其实放在结点中也可以，但不好处理，你新添加一个字符串之后，要判断之前是否添加过需要遍历每个结点才能知道。将信息放在边上也是一个小技巧，它的代码有些巧妙。还有注意就是头结点在每个方法中需要用变量接收，不然会出现错误。  
+[前缀树](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/code/CBTNodeNumber.java)
 
+## 贪心策略
+* 【题目】假设有一个字符串类型的数组，现在要将所有的字符串都拼接起来，这样会用多种拼接结果，现在要找拼接出来字典序最小的结果。
+* 【贪心选择】我们首先考虑一个贪心选择：两个字符串str1和str2，如果str的字典序小于str2的字典序，则在拼接的时候将str1放在str2的前面。这个贪心选择对吗？显然不对，考虑这样一个例子：str1 = "b",str2 = "ba",按照上述贪心选择，拼接的字符串应该是"bba",但显然"bab"的字典序更小。所以这种贪心选择不可取。正确的贪心选择是怎样的呢？提出如下贪心选择：如果str1.str2的字典序小于等于str2.str1的字典序，那么str1放在前面，否则str2放在前面。
+* 【证明】要说明上述所选的贪心选择是可行的，也就是说按照上述规则排序的结果是唯一的，那么就得证该贪心选择具有传递性。如上已经证得了该贪心选择是对的那么如何说明通过该贪心选择得到的字符串拼接是最小的？先证任意两个字符交换得到的字典序一定比之大。
 
+## 53.最大子序和
+* 题目：[最大子序和](https://leetcode-cn.com/problems/maximum-subarray/description/)  
+* 思路：我最初的思路是用滑动窗口来求解。但对于这题来说没有必要，因为滑动窗口得到的是一个范围，但是本题没有必要去得到这个范围，只需要得到这个值即可。  
 
+		public int maxSubArray(int[] nums) {
+			int max = nums[0],temp = nums[0];
+			for(int i=1; i<nums.length; i++) {
+				if(temp > 0) {
+					temp = temp+nums[i];
+				} else {
+					temp = nums[i];
+				}
+				if(temp > max) {
+					max = temp;
+				}
+			}
+			return max;
+		}
+
+## 58.最后一个单词的长度
+
+## 66.加一
+* 题目：[加一](https://leetcode-cn.com/problems/plus-one/description/)
+* 思路：和之前的有一道链表题相似，我还在考虑设置进位符。其实这个题的思路可以更精简一些。  
+
+	    public int[] plusOne(int[] digits) {
+    		int end = digits.length;
+			for(int i=end-1; i>=0; i--) {
+				if(digits[i]<9) {
+					digits[i]++;
+					return digits;
+				}
+				digits[i] = 0;
+			}
+			int[] a = new int[end+1];
+			a[0] = 1;
+			return a;
+    	}  
+
+* 很精炼的思路。
+
+## 切金条
+* 【题目】一块金条切成两半，是需要花费和长度数值一样的铜板的。比如长度为20的 金条，不管切成长度多大的两半，都要花费20个铜板。一群人想整分整块金 条，怎么分最省铜板？例如,给定数组{10,20,30}，代表一共三个人，整块金条长度为10+20+30=60. 金条要分成10,20,30三个部分。 如果， 先把长度60的金条分成10和50，花费60 再把长度50的金条分成20和30，花费50 一共花费110铜板。但是如果， 先把长度60的金条分成30和30，花费60 再把长度30金条分成10和20，花费30 一共花费90铜板。输入一个数组，返回分割的最小代价。
+* 思路：其实是一个哈夫曼编码。利用小根堆，每次弹出两个最小的进行合并，把合并而成的数再放回堆里去，直到堆里只剩一个数的时候，所有合并过程中的数相加即为分割代价最小。
+
+## 项目收益
+* 现在有两个数组，一个代价数组cost，一个利润数组profit，假设现在有一笔启动资金w，一次只能做一个项目。还有一个参数k，代表整个过程只能做k个项目，做完之后就不能再做了。qui最终获得的钱是多少。
+* 思路：根据cost和profit数组，生成一个个项目类型的结点，这个结点包含两个东西，一个就是cost一个就是profit。建立一个小根堆，这个小根堆是按照谁的花费低谁来到头部的这样一个小根堆。这时候看初始资金，从小根堆中弹出所有cost小于w的项目，然后这些项目按照profit组成大根堆。大根堆头部的项目一定是所有能做的项目中收益最高的。获得收益后，再次重复上述过程，知道循环结束。这个不一定是做k次才循环结束，也可能是启动资金不够做其它项目了。  
+
+## 67.二进制求和
+* 【题目】[二进制求和](https://leetcode-cn.com/problems/add-binary/description/)  
+* 注意点：
+	* 怎么把char类型的'1'转化为int类型的1，'1' - '0'，然后用一个int类型的变量去接收。
+	* 按照数的运算规则，charAt得是倒着取索引的。
+	* 判断是否进位并不是temp1+temp2+flag == 2，而是temp1+temp2+flag >= 2。
+	* StringBuilder类有一个reverse()函数可以直接对字符串进行反转。
+* 思路：其实这题还是一个数学方法。困难的地方在于字符串、字符、整型这些类型之间的倒腾。所以推荐如下方法。  
+
+		public String addBinary(String a, String b) {
+			int i = a.length()-1;
+			int j = a.length()-1;//倒着取索引
+			int carry = 0;//进位符
+			while(i>=0 || j>=0) {
+				int sum = carry;
+				if(i>=0) sum += a.charAt(i--) - '0';
+				if(j>=0) sum += b.charAt(j--) - '0';
+				sb.append(sum % 2);
+				carry = sum / 2;//这样考虑进位很巧妙
+			}
+			if(carry != 0) sb.append(carry);
+			return sb.reverse().toString();
+		}
+
+## 69.x的平方根
+* 【题目】[x的平方根](https://leetcode-cn.com/problems/sqrtx/description/)
+* 思路1：牛顿迭代法
+* 思路2：二分法  
+[x的平方根](https://blog.csdn.net/xusiwei1236/article/details/25657611)
+
+## 会议室宣讲次数
+* 一些项目要占用一个会议室宣讲，会议室不能同时容纳两个项目的宣讲。 给你每一个项目开始的时间和结束的时间(给你一个数组，里面 是一个个具体的项目)，你来安排宣讲的日程，要求会议室进行 的宣讲的场次最多。返回这个最多的宣讲场次。
+* 【贪心选择】按照哪个项目早开始选择哪个项目显然不行，因为假设一个项目从6:00开始，但是一开开了一整天，那不就一天就举行了一个项目吗。按照哪个会议持续的时间短也得不到正确的解，因为显然这个贪心选择显然也不成立。
+
+## 递归和动态规划
+* 暴力递归：
+	* 把问题转化为规模缩小了的同类问题的子问题
+	* 有明确的不需要继续进行递归的条件（base case）
+	* 有当得到了子问题的结果之后的决策过程
+	* 不记录每一个子问题的解
+* 求n!的结果
+* 汉诺塔问题
+* 打印字符串的所有子序列
+* 打印字符串的全排列
+
+* 一个二维数组，二维数组中的每个数都是正数，要求从左上角走到右下角，每一步只能向右或者向下。沿途经过的数字要累加起来。返回最小的路径和。
+* 【暴力递归】存在的问题：会做大量重复的工作。比如在f(0,0)这一步要算f(0,1)和f(1,0)，其中f(0,1)要算f(1,1)和f(0,2),f(1,0)要算f(1,1)和f(2,0)，这样f(1,1)就重复算了两次。其实可以在第一次算f(1,1)的时候就存储起来，等到下次要用的时候直接查出它的值即可。
+* 什么样的暴力递归可以转化为动态规划：要满足无后效性和有重复项。什么叫做无后效性？就是之前所做的选择不影响后续的过程，例如不管你以哪种方式到达[1,1],从点[1,1]到达右下角的最短路径都是固定的。有例如八皇后问题，就不满足后无效性，因为之前你做的决策会影响到后续过程。
+* 对于这题来说，只要i,j确定返回值就确定了，所以可以以i的变化范围为行，以j的变化范围为列组成的一个二维表里面可以填上每种状态的返回值。我们所需要的结果就是[0,0]位置的值，但[0,0]位置的值又是依赖于其他位置的，我们首先找到不依赖与其他位置的状态(base case)。在表中填上，然后找到任意一个状态的依赖关系，依次求出表中其它位置的值，直至我们所要的状态，在本题中为[0,0]。
+* 又例：给一个数组arr和一个整数aim。如果可以任意选择arr中的数字，能不能累加得到aim，返回true或者false。
+
+## 88.合并两个有序的数组
+* [合并两个有序的数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+* 【最初思路】:还是正着比较，如果num1中的数值小，则继续往后移动，知道在nums1中发现比nums2中更大的元素，则nums2中的元素插入到nums1中对应的元素之前，相应的之后的元素要后移。
+* 【思路2】：根据数据结构来看，倒着比较倒着排更好一些。首先初始指针i,j分别指向nums1和nums2的最后一个有效元素所在的位置，指针k指向nums1的最后一个位置。nums1和nums2中谁大谁往最后放。
+
+		public void merge(int[] nums1, int m, int[] nums2, int n) {
+			int i = m-1, j = n-1, k = n+m-1;
+			while(i>=0 && j>=0) {
+				if(nums1[i] > nums2[j]) {
+					nums1[k--] = nums1[i--];
+				} else {
+					nums1[k--] = nums2[j--];
+				}
+			}
+			while(j >=0 ) {
+				nums1[k--] = nums2[j--];
+			}
+		}
+
+## 107.二叉树的层次遍历(2)
+* 题目：[二叉树的层次遍历(2)](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
+* 思路：怎样判断哪些元素在同一层？每次在队列里面装的就是同一层的元素。然后怎样实现逆序输出呢？list有一个add(int index, E element)方法，每次把得到的结果放在0索引的位置，这样就可以实现逆序呢。  
+
+		class Solution {
+		    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+		        if(root == null) {
+		            return new ArrayList();
+		        } 
+		        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		        List<List<Integer>> res = new ArrayList();
+		        queue.add(root);
+		        while(!queue.isEmpty()) {
+		            List<Integer> list = new ArrayList();
+		            int size = queue.size();
+		            for(int i=0; i<size; i++) {
+		                root = queue.poll();
+		                list.add(root.val);
+		                if(root.left != null) {
+		                    queue.add(root.left);
+		                }
+		                if(root.right != null) {
+		                    queue.add(root.right);
+		                }
+		            }
+		            res.add(0, list);
+		        }
+		        return res;
+		    }
+		}
+
+## 119. 杨辉三角 II
+* 【题目】[杨辉三角 II](https://leetcode-cn.com/problems/pascals-triangle-ii/)
+* 思路：杨辉三角若从第0行开始计数，则第n行的第k(k从0索引开始)个数的值为C(n,k)，并且有一个递推公式：**C(n,k)=C(n-1,k-1)+C(n-1,k)**，因此可以用一个迭代的方法，但是注意**要从后往前计算**。
+	* 【**注意**】ArrayList的add(int Index, E element)方法不是覆盖，会把当前位置的元素往后挤，set(int Index, E element)才是覆盖。
+
+			class Solution {
+			    public List<Integer> getRow(int rowIndex) {
+			        List<Integer> res = new ArrayList();
+			        for(int i=0; i<=rowIndex; i++) {
+			            for(int j=i-1; j>0; j--) {//从后往前计算
+			                res.set(j, res.get(j-1)+res.get(j));
+			            }
+			            res.add(1);
+			        }
+			        return res;
+			    }
+			}
+## 122.买股票的最佳时机
+* 【题目】[买股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+## KMP算法
+* 解决的问题：解决包含问题
+* 思路1：暴力方法。假设str1=aaaaaab,str2=aaab。依次从str1的索引开始比较是否和str2相同，时间复杂度为O(n*m)，默认N是大于等于M的。
+* 在学习KMP算法之前先了解一个预备知识。假设有一个字符串str=abcabcd，我现在要求d的之前字符串的最长前缀和最长后缀相等的字符串。（**最长前缀不包含最后一个字符，最长后缀不包含第一个字符，且最长后缀是从后往前数**），此时的d->3。  
+考虑整个过程假设模式串str2=ababac，求出每个字串对应相等的最长前缀和最长后缀。并用一个next数组存储起来  
+**next=[-1,0,0,1,2,3]，其中-1和0是人为规定**  
+str1从i位置开始和str2从0位置开始之前一直相等，一直到X和Y出现匹配失败，**那么现在str2该移动到什么位置，并且从什么位置开始比较呢？**移动到如图的j位置，并且X和Z开始比较。  
+![KMP](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/KMP01.PNG)  
+**为什么j之前的位置不可能存在可以和str2完全匹配的字串？**  
+![KMP](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/KMP02.PNG)   
+假设k位置开始可以完全匹配上str2，那么推出矛盾，即Y的前缀和后缀的最长匹配长度出现了矛盾。  
+**next数组怎么求？**  
+0位置对应-1,1位置对应0。数学归纳法，假设i位置之前的next值都已经求好了，i-1位置的next值为a。现在要求i位置的next值：如果i位置的值和i-1的前缀的后一个值（c）相等，则i的next值为a+1,否则再对c的前缀做同上处理，如果相等则+1,知道无法操作则返回0。  
+![KMP](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/KMP03.PNG)   
+
+		/**
+		 * 查找str2在str1中是否存在，如果不存在则返回-1，如果存在则返回str2在str1中开始的索引值。
+		 * @param str1
+		 * @param str2
+		 * @return
+		 */
+		public static int kmp(String str1, String str2) {
+			//首先得到next数组
+			int[] next = getNext(str2);
+			char[] chs1 = str1.toCharArray();
+			char[] chs2 = str2.toCharArray();
+			int i=0, j=0;
+			while(i<chs1.length&&j<chs2.length) {
+				if(chs1[i]==chs2[j]) {
+					i++;
+					j++;
+				} else if(next[j]==-1) {
+					i++;
+				} else {
+					j = next[j];
+				}
+			}
+			return j==str2.length()?i-j:-1;
+		}
+		/**
+		 * 求解next数组
+		 * @param str
+		 * @return
+		 */
+		public static int[] getNext(String str) {
+			if(str==null || str.length()==0) {
+				throw new RuntimeException("待查找的字串无效！");
+			}
+			char[] chs = str.toCharArray();
+			int[] next = new int[str.length()];
+			next[0] = -1;
+			next[1] = 0;
+			int i = 2, jump = 0;//jump为当前和i进行比较的字符
+			while(i < str.length()) {
+				if(chs[i-1] == chs[jump]) {
+					next[i++] = ++jump;
+				} else if(jump > 0) {
+					jump = next[jump];
+				} else {
+					next[i++] = 0;
+				}
+			}
+			return next;
+		}
