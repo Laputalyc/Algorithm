@@ -563,3 +563,281 @@ str1从i位置开始和str2从0位置开始之前一直相等，一直到X和Y�
 			}
 			return next;
 		}
+## 125.验证回文串 
+[验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)   
+
+* 思路：题目要求只考虑数字和字母，可以用ASCII码表来进行筛选，在ASCII码表中**大写字母的范围为65~90；小写字母的范围为97~122；数字的范围为48~57**，起手可以先将字符串中的大写字母转化为小写字母便于后续情况的考虑，toLowerCase();然后设置两个指针，分别从前后开始对比，**如果不是考虑范围内的标识符，则按顺移动，直至比较完成**
+	* **当一个字符串全为非考虑范围内的标识符时，注意防止索引越界，通过先加再判断是否越界**
+	
+			i++;
+		    if(i>=chs.length) return true;
+	* 不用再循环体内刻意考虑i>j
+	`//if(i > j) return false;//这样考虑不对，其实不用加这样一句,加return true是对的`
+	```if((nowi>='a'&&nowi<='z')||(nowi>='0'&&nowi<='9'))这样也是可以的```
+
+			class Solution {
+			    public boolean isPalindrome(String s) {
+			        if(s == null) return true;
+			        String str = s.toLowerCase();
+			        char[] chs = str.toCharArray();//空字符，标点都在内
+			        int i = 0, j = chs.length-1;
+			        while(i<=j) {
+			            while(!((chs[i]>=97&&chs[i]<=122)||(chs[i]>=48&&chs[i]<=57))) {
+			                i++;
+			                if(i>=chs.length) return true;
+			            }
+			            while(!((chs[j]>=97&&chs[j]<=122)||(chs[j]>=48&&chs[j]<=57))) {
+			                j--;
+			                if(j < 0) return true;
+			            }
+			            //if(i > j) return false;//这样考虑不对，其实不用加这样一句
+			            if(chs[i] != chs[j]) {
+			                return false;
+			            } else {
+			                i++;
+			                j--;
+			            }
+			        }
+			        return true;
+			    }
+			}
+## 136.只出现一次的数字
+[只出现一次的数字](https://leetcode-cn.com/problems/single-number/)  
+
+* 思路0：使用一个容器，遍历整个数组，容器中不含有某个数字时则添加该数字，如果容器中含有该数字则移除该数字，按照题意，容器中剩下的那个就是我们所需要的。
+	* 关于这个容器最开始的想法是使用hashset（因为查找和添加O(1)的时间复杂度），但是set这个容器没有get方法，所以最后拿不出来我们想要的结果。
+	* 所以决定用list容器，它具有很多巧妙的方法：
+		* boolean add(E e) 
+          将指定的元素添加到此列表的尾部。 
+		* void add(int index, E element) 
+          将指定的元素插入此列表中的指定位置。 
+		* boolean contains(Object o) 
+          如果此列表中包含指定的元素，则返回 true。 
+		* E get(int index) 
+          返回此列表中指定位置上的元素。 
+		*  E remove(int index) 
+          移除此列表中指定位置上的元素。  
+		* boolean remove(Object o) 
+          移除此列表中首次出现的指定元素（如果存在）。 
+		* E set(int index, E element) 
+          用指定的元素替代此列表中指定位置上的元素。 
+
+				class Solution {
+				    public int singleNumber(int[] nums) {
+				       List<Integer> list = new ArrayList();
+				        for(int i=0; i<nums.length; i++) {
+				            if(!list.contains(nums[i])) {
+				                list.add(nums[i]);
+				            } else {
+				                list.remove((Integer)nums[i]);//因为有两个remove方法，所以如果不装箱则它会默认使用的是参数为索引的那个方法。
+				            }
+				        }
+				        return list.get(0);
+				    }
+				}
+	* 思路1：**相同的数字进行异或操作结果为0**
+
+			class Solution {
+		    public int singleNumber(int[] nums) {
+		        int result = 0;
+		        for(int i = 0; i < nums.length; i++){
+		            result ^= nums[i];
+		        }
+		        return result;
+		   	 	}
+			}
+## 155.最小栈  
+[最小栈](https://leetcode-cn.com/problems/min-stack/)
+
+* 思路0：使用栈来进行常规的pop、push、peek操作，使用优先队列（最小堆）来保留最小值。
+* 思路1：只使用一个栈来完成所有操作。**巧妙之处在于当发现待push的值比当前最小值更小的时候，push两次，先将之前的最小值push进去，再将当前的最小值push进去；pop的时候，如果发现pop出来的是最小值，则再pop一次**  
+
+	    public void push(int x) {
+	        if(x <= min){          
+	            stack.push(min);
+	            min=x;
+	        }
+	        stack.push(x);
+	        
+	    }
+	    
+	    public void pop() {
+	         // if pop operation could result in the changing of the current minimum value, 
+	        // pop twice and change the current minimum value to the last minimum value.
+	        if(stack.pop() == min) min=stack.pop();
+	    }
+## 167.两数之和II-输入有序数组
+* [两数之和](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
+
+		class Solution {
+		    public int[] twoSum(int[] numbers, int target) {
+				if (numbers.length == 0) {
+					return null;
+				}
+				int L = 0;
+				int R = numbers.length - 1;
+				while (L < R) {
+					if (numbers[L] + numbers[R] == target) {
+						return new int[] { L + 1, R + 1 };
+					} else if (numbers[L] + numbers[R] < target) {
+						L++;
+					} else {
+						R--;
+					}
+				}
+				return new int[] { L + 1, R + 1 };
+			}
+		}
+## 169.求众数  
+[求众数](https://leetcode-cn.com/problems/majority-element/)  
+
+* 思路0：这是一个做这种类型题的一般思路，采用一个HashMap，key存储不同的元素，value存储对应元素出现的次数，最终找到出现次数最大的即可。
+
+	    public int majorityElement(int[] nums) {
+	        HashMap<Integer, Integer> map = new HashMap();
+	        int max = 0;
+	        int res = nums[0];
+	        for(int i=0; i<nums.length; i++) {
+	            if(!map.containsKey(nums[i])) {
+	                map.put(nums[i], 1);
+	            } else {
+	                int temp = map.get(nums[i]) + 1;
+	                map.put(nums[i], temp);
+	                if(temp > max) {
+	                    max = temp;
+	                    res = nums[i];
+	                } 
+	            }
+	        }
+	        return res;
+	    }
+* 思路1：思路0是针对这种类型题的通用解法，但对于这题来说它有自己的特点可以更巧妙的处理。**众数是指在数组中出现次数大于⌊ n/2 ⌋的元素，所有可以对该数组进行排序，索引n/2处的元素即为众数**  
+
+	    public int majorityElement(int[] nums) {
+	        Arrays.sort(nums);
+	        return nums[nums.length/2];
+	    }
+* 思路2：针对本题的特点就更巧妙了。**众数所有元素中出现次数大于一半的数，所以具体如下代码，所以最后使得count>0的元素就是众数**
+
+	    public int majorityElement(int[] nums) {
+	         int temp=nums[0];
+	    	int count=1;
+	        for(int i=1;i<nums.length;i++){
+	        	if(nums[i]==temp){
+	        		count++;
+	        	}else{
+	        		count--;
+	        		if(count==0){
+	        			temp=nums[i];
+	                                count=1;
+	        		}
+	        	}
+	        }
+	        return temp;
+	    }
+## 171.Excel表列序号
+* [Excel表列序号](https://leetcode-cn.com/problems/excel-sheet-column-number/)  
+* 解法：**设置了一个base变量，有动态规划的思想，避免了重复计算**
+
+	    public int titleToNumber(String s) {
+	        int length = s.length();
+	        int result = 0;
+	        int base = 1;
+	        for (int i = length - 1; i >= 0; i--) {
+	            int num = s.charAt(i)-'@';
+	            result += num * base;
+	            base = base *26;
+	        }
+	        return result;
+	    }
+## Manachar算法
+### 1.什么是Manchar算法
+> Manachar算法主要是处理字符串中关于回文串的问题的，它可以在 O（n） 的时间处理出以字符串中每一个字符为中心的回文串半径，由于将原字符串处理成两倍长度的新串，在每两个字符之间加入一个特定的特殊字符，因此原本长度为偶数的回文串就成了以中间特殊字符为中心的奇数长度的回文串了。
+Manacher算法提供了一种巧妙的办法，将长度为奇数的回文串和长度为偶数的回文串一起考虑，具体做法是，在原字符串的每个相邻两个字符中间插入一个分隔符，同时在首尾也要添加一个分隔符，分隔符的要求是不在原串中出现，一般情况下可以用#号。
+### 2.暴力法解决问题  
+选择一个字符为中心往两边扩展，但这样存在一个问题。当回文串是奇数的情况下没有什么影响，但是当回文串是偶数的情况下，例如1224，按照之前的思路就解决不了这个问题。针对这个问题，采取的解决方法是**在字符串的开头、结尾、以及每个字符串的间隔添加特殊字符（例如#），再按照上述的方法计算最长回文串，把得到的结果除以2即可。**例如考虑11311这样一个字符串，首先对它进行处理得到**#1#1#3#1#1#，**得到最长回文串数组（**#也参与计算**）：1，3,5,3,1,11,1,3,5,3,1。把其中的结果11/2=5即为结果。
+### 3.Manachar算法解决问题
+#### 3.1 概念介绍
+* **回文直径、回文半径、回文半径数组：**回文半径即以某一个字符开始扩，扩到某一边界的长度。直径即为两倍。回文半径数组即为用一个数组存储每个字符回文半径的值。
+* **回文右边界：**在依次扩展半径的过程中，半径所到达的最右的位置。
+* **回文右边界的中心：**与回文右边界相伴。例如："012131210",首先进过处理后字符串变为"#0#1#2#1#3#1#2#1#0#",回文右边界的中心为9，回文右边界为18。（9、18均为索引，从0开始计数）
+#### 3.2算法过程  
+* **情况1.**假设当前索引为i处的字符正在扩展半径，如果i不在回文右边界里面，直接暴力扩；
+* 若i在回文右边界里面
+	* **情况2.**找到i关于回文中心的对称点i'，如果i'的回文直径在（L,R）的范围内，那么此时i的回文半径等于i'的回文半径。
+	![Manachar01.PNG](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/Manachar01.PNG)
+	* **情况3.**区别于情况2，以i'为中心扩展的范围超出了(L,R)。此时i的回文半径为i到R。  
+	![Manachar02.PNG](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/Manachar02.PNG)
+	* **情况4.**最后一种情况，i'的回文半径刚好和L重合。在i到R这一段范围内不用再比较了，一定是回文的。但R之后的字符串需要继续比较。  
+	![Manachar03.PNG](https://raw.githubusercontent.com/Laputalyc/Algorithm/master/Leetcode/Manachar03.PNG)
+#### 3.3算法复杂度分析
+ 对于情况2和情况3，都可以直接得出答案，所以时间复杂度为O(1)。对于情况1和情况4，它们会造成R往右扩，但这两个过程的最坏情况就是时间复杂度为O(n)。所以Manachar算法的时间复杂度是线性的。
+#### 3.4应用举例
+* 现有一个字符串，在该字符串后添加最短的字符串使之成为回文串。例如：给定字符串"abcb"，则符合题目要求的字符串为"a"。
+	* 思路：即要找包含最后一个字符的最长回文串。剩余部分的逆序即为所添加的字符串。
+### 算法实现
+public class Manachar {
+    /**
+     * 将给定的字符串处理成加上特殊字符的字符串，这里的特殊字符为"#"
+     * @param str 待处理的字符串
+     * @return 处理过后的字符串
+     */
+    public static char[] manacharString(String str) {
+        char[] chs = str.toCharArray();
+        char[] res = new char[str.length()*2 + 1];
+        int index = 0;
+        for (int i=0; i<res.length; i++) {
+            res[i] = (i&1)==0?'#' : chs[index++];
+        }
+        return res;
+    }
+
+    /**
+     * 计算字符串中最长回文串的长度
+     * @param str 待处理的字符串
+     * @return 返回最长回文串的长度
+     */
+    public static int manacharLength(String str) {
+        if(str==null || str.length()==0) {
+            return 0;
+        }
+        int R = -1;//初始回文右边界为-1
+        int C = -1;//初始回文中心为-1
+        int[] arr = new int[str.length()];//声明一个回文半径数组
+        char[] chs = manacharString(str);//加上特殊字符
+        int max = Integer.MIN_VALUE;
+        for(int i=0; i<chs.length; i++) {
+            arr[i] = R>i?Math.min(arr[2*C-i], R-i):1;//设置初始半径（即保证至少这个半径内的字符是回文字符串）
+            //然后继续往下一个字符扩
+            while (i+arr[i]<chs.length && i-arr[i]>-1) {
+                if(chs[i+arr[i]]==chs[i-arr[i]]) {//情况1、情况4
+                    arr[i]++;
+                } else {
+                    break;//即情况2和情况3，不需要扩了直接跳出循环
+                }
+            }
+            //当扩完之后更新回文右边界和回文中心
+            if (i+arr[i]-1 > R) {
+                R = i + arr[i]-1;
+                C = i;
+                max = Math.max(arr[i], max);
+            }
+        }
+        return max-1;
+    }
+## BFPRT算法
+### 1.什么是BFPRT算法
+> 在一大堆数中求其前k大或前k小的问题，简称TOP-K问题。而目前解决TOP-K问题最有效的算法即是BFPRT算法，其又称为中位数的中位数算法。
+### 2.先导算法
+在介绍先导算法之前，当然也存在暴力解决方法，即把整个数组排好序，然后在排好序的数组中取第k个值即可（**为避免混淆，规定k是从索引1开始的**）。现在考虑一种更优的解法，即采用**荷兰国旗**问题的思路来求解，首先将整个数组按照某个**给定的值(target)**进行partition，分成小于、等于、大于三部分。记录分隔这三部分的索引，例如1000个数按照小于、等于、大于分隔为1~500,501~600,601~1000；这个样如果说要求第800小的数，那么就在大于区域重复上述操作，直至得出结果。这个算法的长期期望为O(n)。
+### 3.BFPRT算法
+BFPRT算法的思路和上述的荷兰国旗问题的思路一致，唯一不同的地方在于BFPRT算法的**target**不是随机选定的，这样就使得BFPRT算法的时间复杂度是严格的O(n)，而不是依概率长期期望到达O(n)。
+#### 3.1 如何选定target？
+* 1.**首先逻辑分组，相邻5个数为一组；**（为什么是5个数为一组呢？因为发明这个算法的是5个人，BFPRT即为他们五个人的姓名首字母，所以这个算法也可以叫做5个好朋友算法，手动狗头）
+* 2.**然后每个小组之间排序，跨组之间不保证有序；**。
+	* 时间复杂度：5个数排序时间复杂度为O(1),总共有n/5个组，所以这个过程的时间复杂度为O(n)。
+* 3.**把每个组的中位数拿出来重新组成一个数组new_arr（偶数个数随机选择上中位数或者下中位数），**新的数组长度是n/5的。
+* 4.**找到new_arr的中位数，即递归调用bfprt算法：bfprt(new_arr, new_arr.length/2),当得到新数组的长度小于等于5时，返回的值即为所求的target值；**
+* 5.**根据所得的target值进行partition。**
+#### 3.2 为什么要这样选择target值？
+这样选择的target在partition之后的最坏情况是多少？在所有中位数组成的新数组中新选的中位数为temp，那么在这n/5个数中有n/10个数比temp大，在这n/10个数中至少又有2个数分别比这n/10个数大，所以**至少**有3n/10个数比所求的temp大，依次类推，对于最后求出来的target也至少有3n/10个数比target大，**所以要处理的最坏情况的数据量为7n/10**,所以选取target的过程整个的时间复杂度为T(N)=T(N/5)+T(7N/10),计算出来时间复杂度为O(n)。
